@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#191d26">
+  <meta name="description" content="Interactive schematic map of buses, chartered trains, and planes recorded as definitely coming to the 1963 March on Washington.">
+  <title>Definitely coming to Washington — interactive demonstration</title>
+  <link rel="stylesheet" href="./assets/convergence.css">
+</head>
+<body>
+  <a class="skip-link" href="#visualization">Skip to the visualization</a>
+  <main>
+    <p class="staging-banner" role="note"><strong>Temporary project demonstration.</strong> Prepared for Stanford MLK Institute review; not the final published presentation.</p>
+
+    <section class="visualization" id="visualization" aria-labelledby="visualization-title">
+      <h1 class="sr-only" id="visualization-title">Definitely coming to Washington — August 22, 1963</h1>
+      <p class="map-reading-note"><strong>Where to look:</strong> begin along the Northeast corridor, where the confirmed charters form the densest cluster; the long western and southern arcs show how far beyond that corridor the mobilization reached.</p>
+
+      <div class="flow-shell">
+        <div class="flow-toolbar">
+          <strong>“Definitely coming to Washington” — August 22, 1963</strong>
+          <div class="flow-actions">
+            <div class="flow-controls" aria-label="Filter transportation modes">
+              <button type="button" class="mode-toggle on" data-mode="all" aria-pressed="true">All</button>
+              <button type="button" class="mode-toggle" data-mode="bus" aria-pressed="false">Buses</button>
+              <button type="button" class="mode-toggle" data-mode="train" aria-pressed="false">Trains</button>
+              <button type="button" class="mode-toggle" data-mode="plane" aria-pressed="false">Planes</button>
+            </div>
+            <button type="button" class="pause-toggle" id="pauseToggle" aria-pressed="false">Pause motion</button>
+          </div>
+        </div>
+
+        <div class="flow-wrap">
+          <svg id="flowSvg" viewBox="0 0 980 600" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="flow-tip" id="flowTip" role="status" aria-live="polite"></div>
+          <div class="load-error" id="loadError" hidden>
+            <strong>The interactive map could not load its data.</strong>
+            <span>Open the records table below or reload the page.</span>
+          </div>
+        </div>
+
+        <div class="mode-metrics" aria-label="Transportation planning totals">
+          <div class="metric"><b>1,004 printed</b><span>984 itemized · 45 riders per bus assumed</span></div>
+          <div class="metric"><b>21</b><span>trains · ≈20,500 riders</span></div>
+          <div class="metric"><b>14</b><span>planes · ≈1,400 riders</span></div>
+          <div class="metric"><b>67,080 printed</b><span>66,180 implied by itemized bus entries</span></div>
+        </div>
+
+        <div class="flow-legend">
+          <span><i class="bus"></i>Bus charter</span>
+          <span><i class="train"></i>Train charter</span>
+          <span><i class="plane"></i>Plane charter</span>
+          <span>Line weight and particle count scale with charters per origin · schematic base, not a surveyed route map</span>
+        </div>
+      </div>
+
+      <div class="data-discrepancy" role="note"><strong>Source arithmetic warning.</strong> The memo prints an East Coast subtotal of 812 buses and a national total of 1,004, but its listed East Coast entries sum to 792 and all listed bus entries sum to 984. The flow map therefore animates 984 itemized buses; printed totals remain visible as source-reported values.</div>
+
+      <p class="flow-note"><strong>Read this as a planning snapshot, not attendance.</strong> The memo excludes cars, regularly scheduled carriers, and unreported groups; southern coaches from Birmingham, Miami, and Jacksonville were confirmed without passenger counts; New York figures “barely touch” Brooklyn, Harlem, and the Bronx. Final crowd estimates were roughly a quarter million.</p>
+
+      <p class="interaction-note">Hover or tap an origin for its count and mapping caveat. Use the mode buttons to filter both the map and the records table.</p>
+      <div class="flow-a11y-status" id="flowA11yStatus" aria-live="polite">Loading 55 documented origin-and-mode entries…</div>
+
+      <details class="flow-data" id="records">
+        <summary>Read and filter the transportation origins as a table</summary>
+        <div class="flow-table-scroll">
+          <table>
+            <caption class="sr-only">Cities, modes, charter counts, and geometry notes from the August 22 transportation memorandum</caption>
+            <thead><tr><th scope="col">Origin</th><th scope="col">Mode</th><th scope="col">Charters</th><th scope="col">Map note</th></tr></thead>
+            <tbody id="flowDataBody"></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <footer>
+      <p><strong>Source:</strong> Transportation plans_BRP.pdf, p. 12 (August 22, 1963 planning memorandum).</p>
+      <p>Movement is a visual metaphor for convergence. Arcs are symbolic links from representative origins to Washington, not reconstructed routes or recorded departure times.</p>
+      <p id="dataVersion">Data snapshot: local meeting-demo package.</p>
+    </footer>
+  </main>
+  <script src="./config.js"></script>
+  <script src="./assets/convergence.js"></script>
+</body>
+</html>

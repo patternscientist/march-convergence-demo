@@ -1,0 +1,32 @@
+{
+  "source_file": "StoryMap-prototype.html",
+  "source_sha256": "e89fb4da721feba3bd4fdcba266973ecc16339b4e1aea799671243301cea57c0",
+  "extracted_records": 55,
+  "mode_record_counts": {
+    "bus": 34,
+    "train": 10,
+    "plane": 11
+  },
+  "charter_totals": {
+    "bus": 984,
+    "train": 21,
+    "plane": 14
+  },
+  "generated_files": [
+    ".gitignore",
+    ".nojekyll",
+    "DATA_DICTIONARY.md",
+    "EXTRACTION_MANIFEST.json",
+    "PUBLISH_TO_GITHUB.ps1",
+    "README.md",
+    "STORYMAP_EMBED_CHECKLIST.md",
+    "TEST_REPORT.md",
+    "assets/convergence.css",
+    "assets/convergence.js",
+    "config.js",
+    "data/mobilization-origins.json",
+    "index.html",
+    "scripts/validate.py",
+    "test/storymap-frame.html"
+  ]
+}
