@@ -3,5 +3,5 @@ window.CONVERGENCE_CONFIG = Object.freeze({
   localDataUrl: "./data/mobilization-origins.json",
   arcgisFeatureLayerUrl: "",
   staging: true,
-  dataVersionLabel: "Local JSON snapshot extracted from StoryMap-prototype.html"
+  dataVersionLabel: "Meeting-demo v2 JSON snapshot extracted from StoryMap-prototype.html"
 });

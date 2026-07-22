@@ -33,7 +33,7 @@
         </div>
 
         <div class="flow-wrap">
-          <svg id="flowSvg" viewBox="0 0 980 600" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet"></svg>
+          <svg id="flowSvg" viewBox="0 0 980 600" role="group" aria-labelledby="flowMapTitle flowMapDescription" aria-describedby="flowInstructions" focusable="false" preserveAspectRatio="xMidYMid meet"></svg>
           <div class="flow-tip" id="flowTip" role="status" aria-live="polite"></div>
           <div class="load-error" id="loadError" hidden>
             <strong>The interactive map could not load its data.</strong>
@@ -60,7 +60,7 @@
 
       <p class="flow-note"><strong>Read this as a planning snapshot, not attendance.</strong> The memo excludes cars, regularly scheduled carriers, and unreported groups; southern coaches from Birmingham, Miami, and Jacksonville were confirmed without passenger counts; New York figures “barely touch” Brooklyn, Harlem, and the Bronx. Final crowd estimates were roughly a quarter million.</p>
 
-      <p class="interaction-note">Hover or tap an origin for its count and mapping caveat. Use the mode buttons to filter both the map and the records table.</p>
+      <p class="interaction-note" id="flowInstructions">Hover, tap, or focus an origin for its count and mapping caveat. Use the mode buttons to filter both the map and the records table.</p>
       <div class="flow-a11y-status" id="flowA11yStatus" aria-live="polite">Loading 55 documented origin-and-mode entries…</div>
 
       <details class="flow-data" id="records">

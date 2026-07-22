@@ -13,7 +13,7 @@ The package intentionally excludes the licensed cover photograph, documentary sc
 - symbolic curved flows into Washington;
 - particle density and line weight scaled by charter counts;
 - All / Buses / Trains / Planes filters;
-- hover and tap details for each origin;
+- hover, tap, and keyboard-focus details for each origin;
 - source-arithmetic warning and planning-snapshot caveats;
 - a filtered accessible records table;
 - reduced-motion behavior and a visible pause control.
@@ -56,7 +56,15 @@ The `.nojekyll` file ensures GitHub Pages serves the static files without Jekyll
 
 ## StoryMaps embed
 
-Add the GitHub Pages URL through **Add content → Embed**. Use the live interactive display, enable direct interaction and the open-in-new-tab control, then test desktop, tablet, and phone previews.
+Use the normal root URL in StoryMaps:
+
+```text
+https://patternscientist.github.io/march-convergence-demo/
+```
+
+The page automatically detects when it is inside an iframe and switches to its compact StoryMap layout. Opening the same URL in a new browser tab shows the complete standalone presentation. `?embed=1` remains available for directly previewing the compact layout.
+
+Add the root URL through **Add content → Embed**. Use the live interactive display, enable direct interaction and the open-in-new-tab control, then test desktop, tablet, and phone previews.
 
 Suggested alternative text:
 

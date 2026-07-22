@@ -6,7 +6,7 @@
 - [ ] Run `py -m http.server 8000` and inspect the main page.
 - [ ] Open `http://localhost:8000/test/storymap-frame.html` and inspect the iframe-sized experience.
 - [ ] Test All, Buses, Trains, and Planes.
-- [ ] Hover and tap representative origins, including New York City and Buffalo–Syracuse–Rochester.
+- [ ] Hover, tap, and keyboard-focus representative origins, including New York City and Buffalo–Syracuse–Rochester.
 - [ ] Test Pause / Resume and reduced-motion behavior.
 - [ ] Open the records table and confirm it filters with the map.
 - [ ] Check browser console for errors.
@@ -17,12 +17,12 @@
 - [ ] Upload the package contents to the repository root.
 - [ ] Enable Pages from `main` / root.
 - [ ] Confirm the public HTTPS URL loads all assets and JSON.
-- [ ] Confirm the page can load inside an iframe.
+- [ ] Confirm both the root page and `?embed=1` page can load inside an iframe.
 
 ## Embed in StoryMaps
 
 - [ ] Add content → Embed.
-- [ ] Paste the GitHub Pages URL.
+- [ ] Paste `https://patternscientist.github.io/march-convergence-demo/` (compact mode activates automatically inside the StoryMap iframe).
 - [ ] Choose live interactive content.
 - [ ] Use a large block.
 - [ ] Enable direct reader interaction.

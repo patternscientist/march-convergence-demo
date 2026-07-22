@@ -48,3 +48,12 @@ At all tested sizes:
 - Pause / Resume updated `aria-pressed` correctly.
 
 The execution environment blocks headless browsers from navigating to local HTTP or `file:` URLs, so browser interaction testing used a functionally equivalent in-memory page with the production assets and identical JSON. Static HTTP delivery was tested separately with `curl`. The final public GitHub Pages URL still needs one real-browser and one StoryMaps-iframe pass after deployment.
+
+
+## v2 accessibility and embed hardening
+
+- Individual origins are keyboard-focusable SVG buttons with descriptive accessible names.
+- Enter and Space toggle details; Escape closes them.
+- Mode filtering removes hidden origins from the keyboard tab order.
+- Transparent, responsive hit areas improve touch targeting without enlarging the visible marks.
+- `?embed=1` supplies a compact StoryMap presentation that removes duplicate surrounding prose while retaining the interactive and accessible core.

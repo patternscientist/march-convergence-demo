@@ -20,6 +20,20 @@ if counts != expected_counts: errors.append(f"Mode record counts differ: {counts
 if totals != expected_totals: errors.append(f"Charter totals differ: {totals}")
 for rel in ["index.html","config.js","assets/convergence.css","assets/convergence.js","README.md","STORYMAP_EMBED_CHECKLIST.md"]:
     if not (root/rel).is_file(): errors.append(f"Missing file: {rel}")
+
+index_html=(root / "index.html").read_text(encoding="utf-8")
+client_js=(root / "assets" / "convergence.js").read_text(encoding="utf-8")
+client_css=(root / "assets" / "convergence.css").read_text(encoding="utf-8")
+test_frame=(root / "test" / "storymap-frame.html").read_text(encoding="utf-8")
+source_checks={
+    "interactive SVG group": 'role="group"' in index_html and 'aria-labelledby="flowMapTitle flowMapDescription"' in index_html,
+    "keyboard origin controls": 'node.setAttribute("tabindex", "0")' in client_js and 'node.addEventListener("keydown"' in client_js,
+    "responsive touch targets": 'class="flow-hit"' in client_js and 'function updateHitTargets()' in client_js,
+    "compact embed mode": 'embed-mode' in client_js and '.embed-mode' in client_css,
+    "StoryMap simulator uses compact mode": 'index.html?embed=1' in test_frame,
+}
+for label,ok in source_checks.items():
+    if not ok: errors.append(f"Missing hardening feature: {label}")
 if errors:
     print("VALIDATION FAILED")
     for error in errors: print("-",error)

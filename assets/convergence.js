@@ -2,6 +2,8 @@
   "use strict";
 
   const CONFIG = window.CONVERGENCE_CONFIG || {};
+  const embedMode = new URLSearchParams(window.location.search).get("embed") === "1" || window.self !== window.top;
+  if (embedMode) document.documentElement.classList.add("embed-mode");
   const NS = "http://www.w3.org/2000/svg";
   const FW = 980, FH = 600, DC = [-77.036, 38.907];
   const MODE_COLOR = { bus: "#e0a458", train: "#7fb3c8", plane: "#c98ba8" };
@@ -101,10 +103,12 @@
     const rect = flowSvg.getBoundingClientRect();
     let clientX = event?.clientX, clientY = event?.clientY;
     if (!Number.isFinite(clientX) || !Number.isFinite(clientY)) {
-      const circle = node.querySelector("circle");
+      const circle = node.querySelector(".flow-origin-dot");
       const point = flowSvg.createSVGPoint();
       point.x = Number(circle.getAttribute("cx")); point.y = Number(circle.getAttribute("cy"));
-      const screen = point.matrixTransform(flowSvg.getScreenCTM());
+      const matrix = flowSvg.getScreenCTM();
+      if (!matrix) return;
+      const screen = point.matrixTransform(matrix);
       clientX = screen.x; clientY = screen.y;
     }
     flowTip.style.display = "block";
@@ -121,9 +125,30 @@
     }
   }
 
+  function updateHitTargets() {
+    const renderedWidth = flowSvg.getBoundingClientRect().width || FW;
+    const scale = renderedWidth / FW;
+    const targetRadius = Math.max(14, Math.min(38, 15 / Math.max(scale, 0.01)));
+    flowSvg.querySelectorAll(".flow-hit").forEach(circle => circle.setAttribute("r", targetRadius.toFixed(1)));
+  }
+
+  function flowAriaLabel(flow) {
+    const count = Number(flow.charter_count);
+    return `${flow.archival_label}: ${count.toLocaleString()} ${plural(flow.mode, count)} chartered, definitely coming on August 22. ${flow.geometry_note}`;
+  }
+
   function buildFlow() {
     flowSvg.replaceChildren();
     arcs = [];
+
+    const title = document.createElementNS(NS, "title");
+    title.id = "flowMapTitle";
+    title.textContent = "Transportation origins recorded as definitely coming to Washington on August 22, 1963";
+    const description = document.createElementNS(NS, "desc");
+    description.id = "flowMapDescription";
+    description.textContent = "Interactive schematic showing bus, train, and plane charters converging on Washington. Use Tab to focus origins, Enter or Space to open details, and Escape to close them.";
+    flowSvg.append(title, description);
+
     const bg = document.createElementNS(NS, "g");
     const outline = US_OUTLINE.map((p,i) => (i ? "L" : "M") + project(p[0],p[1]).map(v => v.toFixed(1)).join(",")).join(" ") + " Z";
     bg.innerHTML = `<rect width="${FW}" height="${FH}" fill="#191d26"/><path d="${outline}" fill="#20242f" stroke="#343b4c" stroke-width="1.4"/><text x="24" y="${FH-20}" fill="#5b6272" font-family="ui-sans-serif,system-ui" font-size="12" font-weight="700">SCHEMATIC — origins from the Aug. 22, 1963 memo; arcs are symbolic, not routes</text>`;
@@ -153,15 +178,30 @@
 
       const node = document.createElementNS(NS, "g");
       const radius = Math.max(2.5, Math.min(9, Math.sqrt(count)*0.95));
-      node.innerHTML = `<circle cx="${x}" cy="${y}" r="${radius}" fill="${MODE_COLOR[f.mode]}" fill-opacity=".85" stroke="#10131a" stroke-width="1"/>`;
-      node.style.cursor = "pointer";
+      node.classList.add("flow-origin");
+      node.innerHTML = `<circle class="flow-hit" cx="${x}" cy="${y}" r="18" fill="transparent" pointer-events="all"/><circle class="flow-origin-dot" cx="${x}" cy="${y}" r="${radius}" fill="${MODE_COLOR[f.mode]}" fill-opacity=".85" stroke="#10131a" stroke-width="1" pointer-events="none"/>`;
+      node.setAttribute("role", "button");
+      node.setAttribute("tabindex", "0");
+      node.setAttribute("focusable", "true");
+      node.setAttribute("aria-label", flowAriaLabel(f));
       node.dataset.mode = f.mode;
       node.dataset.flowId = f.flow_id;
       node.addEventListener("pointermove", event => { if (!persistentTip) showTip(event, f, node); });
       node.addEventListener("pointerleave", () => hideTip());
+      node.addEventListener("focus", () => { persistentTip = null; showTip(null, f, node, true); });
+      node.addEventListener("blur", () => hideTip(true));
       node.addEventListener("click", event => {
         event.stopPropagation();
         if (persistentTip === node) hideTip(true); else { persistentTip = null; showTip(event, f, node, true); }
+      });
+      node.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          if (persistentTip === node) hideTip(true); else { persistentTip = null; showTip(null, f, node, true); }
+        } else if (event.key === "Escape") {
+          event.preventDefault();
+          hideTip(true);
+        }
       });
       nodeLayer.appendChild(node);
     });
@@ -179,6 +219,7 @@
         return dot;
       });
     });
+    updateHitTargets();
   }
 
   function applyMode(mode) {
@@ -189,7 +230,10 @@
       button.setAttribute("aria-pressed", String(selected));
     });
     flowSvg.querySelectorAll("[data-mode]").forEach(node => {
-      node.style.opacity = (mode === "all" || mode === node.dataset.mode) ? "1" : "0.12";
+      const shown = mode === "all" || mode === node.dataset.mode;
+      node.style.opacity = shown ? "1" : "0.12";
+      node.setAttribute("aria-hidden", String(!shown));
+      node.setAttribute("tabindex", shown ? "0" : "-1");
     });
     const rows = [...flowDataBody.querySelectorAll("tr")];
     rows.forEach(row => row.hidden = !(mode === "all" || mode === row.dataset.mode));
@@ -231,6 +275,8 @@
   document.addEventListener("keydown", event => { if (event.key === "Escape") hideTip(true); });
   document.addEventListener("click", event => { if (!event.target.closest("#flowSvg") && !event.target.closest("#flowTip")) hideTip(true); });
   new IntersectionObserver(entries => { mapVisible = entries[0]?.isIntersecting ?? true; }, {threshold:0.05}).observe(flowSvg);
+  if ("ResizeObserver" in window) new ResizeObserver(updateHitTargets).observe(flowSvg);
+  else window.addEventListener("resize", updateHitTargets);
 
   loadData().then(validateData).then(data => {
     flows = data;

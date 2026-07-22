@@ -27,6 +27,13 @@
     "data/mobilization-origins.json",
     "index.html",
     "scripts/validate.py",
-    "test/storymap-frame.html"
-  ]
+    "test/storymap-frame.html",
+    "UPDATE_AND_EMBED.md"
+  ],
+  "package_version": "meeting-demo-v2",
+  "hardening": {
+    "keyboard_focusable_origins": true,
+    "responsive_touch_hit_targets": true,
+    "storymap_embed_query": "automatic iframe detection; ?embed=1 manual override"
+  }
 }

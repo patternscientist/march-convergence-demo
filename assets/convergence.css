@@ -42,3 +42,21 @@ footer{max-width:1350px;margin:12px auto 0;padding:11px 14px;border-top:1px soli
 @media(max-width:700px){main{padding:8px}.staging-banner{margin-bottom:8px}.map-reading-note{margin-bottom:8px}.flow-shell{border-radius:14px}.flow-toolbar{align-items:flex-start;padding:12px}.flow-toolbar>strong{width:100%;font-size:16px}.flow-actions{width:100%;justify-content:space-between}.flow-wrap{min-height:0}.flow-wrap svg{height:auto;aspect-ratio:980/600}.mode-metrics{grid-template-columns:1fr 1fr}.metric{padding:12px 7px}.metric b{font-size:23px}.flow-legend{padding:11px 12px}.flow-data table{min-width:660px}.flow-tip{font-size:11.5px}}
 @media(max-width:430px){.flow-actions{align-items:flex-start;flex-direction:column}.pause-toggle{align-self:flex-start}.flow-controls button,.pause-toggle{padding:8px 10px}.map-reading-note,.data-discrepancy,.flow-note,.interaction-note{font-size:12.5px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.pause-toggle{display:none}}
+
+
+/* v2: keyboard/touch access and StoryMap-optimized embed mode */
+.flow-origin{cursor:pointer}
+.flow-origin .flow-origin-dot{transition:stroke-width .12s ease,filter .12s ease,fill-opacity .12s ease}
+.flow-origin:hover .flow-origin-dot,.flow-origin:focus-visible .flow-origin-dot{stroke:#fffdf8;stroke-width:3;fill-opacity:1;filter:drop-shadow(0 0 5px rgba(242,187,88,.95))}
+.flow-origin:focus{outline:none}
+.embed-mode body{background:var(--night)}
+.embed-mode main{max-width:none;padding:0}
+.embed-mode .staging-banner,.embed-mode .map-reading-note,.embed-mode .data-discrepancy,.embed-mode .flow-note,.embed-mode footer{display:none}
+.embed-mode .flow-shell{max-width:none;border-radius:0;border-left:0;border-right:0;box-shadow:none}
+.embed-mode .flow-wrap svg{height:clamp(390px,56vh,540px)}
+.embed-mode .interaction-note,.embed-mode .flow-a11y-status,.embed-mode .flow-data{margin-left:12px;margin-right:12px}
+.embed-mode .interaction-note{color:#d7dbe4}
+.embed-mode .flow-a11y-status{color:#bfc4cf}
+.embed-mode .flow-data{margin-bottom:10px}
+@media(max-width:700px){.embed-mode .flow-wrap svg{height:auto}.embed-mode .interaction-note,.embed-mode .flow-a11y-status,.embed-mode .flow-data{margin-left:8px;margin-right:8px}}
+@media(prefers-reduced-motion:reduce){.flow-origin .flow-origin-dot{transition:none}}
