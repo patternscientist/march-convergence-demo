@@ -252,7 +252,7 @@
     let last = performance.now();
     function tick(now) {
       const dt = Math.min(0.05, (now-last)/1000); last = now;
-      const canMove = mapVisible && documentVisible && !manualPaused && !mediaReducedMotion.matches;
+      const canMove = mapVisible && documentVisible && !manualPaused;
       arcs.forEach(arc => {
         const on = flowMode === "all" || flowMode === arc.mode;
         arc.path.setAttribute("stroke-opacity", on ? "0.16" : "0.03");
