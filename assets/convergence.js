@@ -283,10 +283,6 @@
     buildTable();
     buildFlow();
     applyMode("all");
-    if (mediaReducedMotion.matches) {
-      setPaused(true);
-      flowA11yStatus.textContent += " Motion is paused because reduced motion is enabled.";
-    }
     animate();
   }).catch(error => {
     console.error(error);
